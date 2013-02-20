@@ -1,0 +1,26 @@
+---
+sdkversion: 3.5.0
+name: showin
+version: 1.0
+vendor: rhomobile
+build: debug
+bbver: 4.6
+applog: rholog.txt
+iphone:
+  configuration: Release
+  sdk: iphonesimulator6.1
+  provisionprofile: 
+  codesignidentity: 
+  entitlements: 
+  BundleIdentifier: com.rhomobile.showin
+  BundleURLScheme: showin
+wp:
+  productid: e77077e0-5cd4-0130-5a50-14109fdd840b
+symbian:
+  uid: '0xe842bcd9'
+android:
+  version: 2.3
+extensions:
+- json
+- another-extension
+sdk: /Users/natsuki/.rvm/gems/ruby-1.9.3-p385@showin/gems/rhodes-3.5.1.12
