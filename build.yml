@@ -12,7 +12,6 @@ iphone:
   provisionprofile: 
   codesignidentity: 
   entitlements: 
-  emulator: 5.0
   BundleIdentifier: com.rhomobile.showin
   BundleURLScheme: showin
 wp:

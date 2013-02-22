@@ -4,14 +4,16 @@
   </div>
   <div data-role="content">
     <ul data-role="listview" data-inset="true">
+      <% Social::Provider.all.each{|provider| %>
         <li>
           <a href="#">
-            <img src="/public/images/social/twitter.png">
-            <h2>Twitter</h2>
-            <p>Twitter account authorization</p>
-            <p class="ui-li-aside">twitter</p>
+            <img src="/public/images/social/<%= provider.name %>.png">
+            <h2><%= provider.name.capitalize %></h2>
+            <p><%= provider.name.capitalize %> account</p>
+            <p class="ui-li-aside"><%= provider.name %></p>
           </a>
         </li>
+      <% } %>
     </ul>
   </div>
   <%= render partial: "/footer" %>

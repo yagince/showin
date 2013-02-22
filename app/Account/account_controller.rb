@@ -1,5 +1,6 @@
 require 'rho/rhocontroller'
 require 'helpers/browser_helper'
+require 'lib/social/provider'
 
 class AccountController < Rho::RhoController
   include BrowserHelper
