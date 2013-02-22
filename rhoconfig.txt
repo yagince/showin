@@ -86,3 +86,12 @@ jqtouch_mode=1
 splash_screen='zoom'
 
 use_bb_full_browser=6
+
+# Twitter Config
+twitter_consumer_key = "RCVYa9Dr03gsBBoOntCaQ"
+twitter_consumer_secret = "rmH37CuiW5RXcOse5ruDJwDEmmSLhwnRUQmQsrMk"
+twitter_oauth_signature_method = "HMAC-SHA1"
+twitter_oauth_version = "1.0"
+twitter_request_token_url = "https://api.twitter.com/oauth/request_token"
+twitter_request_redirect_url = "https://api.twitter.com/oauth/authenticate?oauth_token="
+twitter_access_token_url = "https://api.twitter.com/oauth/access_token"
