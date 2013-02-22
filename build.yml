@@ -27,4 +27,4 @@ extensions:
 - hmac
 - digest
 - digest-sha1
-sdk: /Users/natsuki/.rvm/gems/ruby-1.9.3-p385@showin/gems/rhodes-3.5.1.12
+sdk: 

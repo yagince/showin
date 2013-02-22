@@ -13,3 +13,6 @@ sim-*
 
 # build output
 bin/
+
+#for mac
+.DS_Store
