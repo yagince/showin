@@ -1,0 +1,32 @@
+---
+sdkversion: 3.5.0
+name: showin
+version: 1.0
+vendor: yagince
+build: debug
+bbver: 4.6
+applog: rholog.txt
+iphone:
+  configuration: Debug
+  sdk: iphonesimulator6.1
+  provisionprofile: 
+  codesignidentity: 
+  entitlements: 
+  BundleIdentifier: com.rhomobile.showin
+  BundleURLScheme: showin
+wp:
+  productid: e77077e0-5cd4-0130-5a50-14109fdd840b
+symbian:
+  uid: '0xe842bcd9'
+android:
+  version: 2.3
+extensions:
+- json
+- another-extension
+- hmac
+- openssl.so
+- openssl
+- uri
+- digest
+- digest-sha1
+sdk: 
