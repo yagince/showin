@@ -1,8 +1,8 @@
 <div data-role="footer" data-id="footer" data-position="fixed" data-tap-toggle="false">
 	<div data-role="navbar">
     <ul>
-      <li><a href="<%= Rho::RhoConfig.start_path %>/">Home</a></li>
-    	<li><a href="<%= url_for :controller => :Settings, :action => :index %>">Settings</a></li>
+      <li><a href="<%= Rho::RhoConfig.start_path %>/" data-transition="pop">Home</a></li>
+    	<li><a href="<%= url_for :controller => :Settings, :action => :index %>" data-transition="pop">Settings</a></li>
     </ul>
   </div>
 </div>    
