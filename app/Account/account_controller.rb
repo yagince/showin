@@ -22,17 +22,20 @@ class AccountController < Rho::RhoController
   end
 
   def new
+    @msg = @params["msg"]
     render back: (url_for action: index)
   end
 
   # POST /Account/create
+  # TODO: delete
   def create
     case @params['provider']
     when 'twitter'
-      redirect :controller => 'Twitter', :action => :create
+      RhoLog.info("Account", "redirect to TwitterController")
+      redirect :controller => :Twitter, :action => :create, :query => @params
     else
       # TODO: other platform
-      redirect :controller => 'Twitter', :action => :create
+      redirect :action => :index
     end
   end
 end

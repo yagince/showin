@@ -3,10 +3,15 @@
     <h1>New Account</h1>
   </div>
   <div data-role="content">
+    <%= @msg %>
     <ul data-role="listview" data-inset="true">
-      <% Social::Provider.all.each{|provider| %>
+      <% Social::Provider.all.each_with_index {|provider, i| %>
+        <% form_id = "new_form_#{i}" %>
         <li>
-          <a href="#">
+          <form id="<%= form_id %>" method="POST" action="<%= url_for controller: :Twitter, :action => :create %>">
+            <input type="hidden" name="provider" value="<%= provider.name %>">
+          </form>
+          <a href="#" onClick="$('#<%= form_id %>').submit();">
             <img src="/public/images/social/<%= provider.name %>.png">
             <h2><%= provider.name.capitalize %></h2>
             <p><%= provider.name.capitalize %> account</p>

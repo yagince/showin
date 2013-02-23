@@ -4,9 +4,15 @@
     <a href="<%= url_for :action => :new %>" class="ui-btn-right" data-role="button" data-icon="plus" data-iconpos="notext" data-theme="a" data-inline="true">New</a>
   </div>
   <div data-role="content">
+    <% if Account.find_all.length == 0 %>
+      <div> nothing ... </div>
+    <% end %>
     <ul data-role="listview">
       <% Account.find_all.each {|account| %>
-        <li><%= account.provider %></li>
+        <li>
+          <img src="/public/images/social/<%= account.provider %>.png">
+          <%= account.name %>
+        </li>
       <% } %>
     </ul>
   </div>

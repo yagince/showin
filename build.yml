@@ -24,6 +24,9 @@ extensions:
 - json
 - another-extension
 - hmac
+- openssl.so
+- openssl
+- uri
 - digest
 - digest-sha1
 sdk: 
