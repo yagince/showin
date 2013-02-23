@@ -11,7 +11,8 @@
       <% Account.find_all.each {|account| %>
         <li>
           <img src="/public/images/social/<%= account.provider %>.png">
-          <%= account.name %>
+          <h2><%= account.provider.capitalize %></h2>
+          <p>@<%= account.name %></p>
         </li>
       <% } %>
     </ul>
