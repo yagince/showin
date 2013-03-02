@@ -2,10 +2,11 @@ require 'openssl'
 require 'uri'
 require 'base64'
 #require 'cgi'
+require 'lib/cgi'
 
 module Social
   class OauthHeader
-    ATTRIBUTE_KEYS = [:callback, :consumer_key, :nonce, :signature_method, :timestamp, :token, :verifier, :version] unless defined? ::SimpleOAuth::Header::ATTRIBUTE_KEYS
+    ATTRIBUTE_KEYS = [:callback, :consumer_key, :nonce, :signature_method, :timestamp, :token, :verifier, :version]
     attr_reader :method, :params, :options
 
     class << self
@@ -107,12 +108,12 @@ module Social
     end
 
     def signature_params
-      attributes.to_a + params.to_a # + url_params
+      attributes.to_a + params.to_a + url_params
     end
 
-    # def url_params
-    #   CGI.parse(@uri.query || '').inject([]){|p,(k,vs)| p + vs.sort.map{|v| [k, v] } }
-    # end
+    def url_params
+      CGI.parse(@uri.query || '').inject([]){|p,(k,vs)| p + vs.sort.map{|v| [k, v] } }
+    end
 
     def rsa_sha1_signature
       Base64.encode64(private_key.sign(OpenSSL::Digest::SHA1.new, signature_base)).chomp.gsub(/\n/, '')
