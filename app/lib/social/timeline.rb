@@ -9,7 +9,7 @@ module Social
   class Tweet < Timeline
     def initialize(json)
       @id = json["id"]
-      @user = Social::User.new(json["user"])
+      @user = Social::TwitterUser.new(json["user"])
       @body = json["text"]
       @created_at = DateTime.parse(json["created_at"])
     end

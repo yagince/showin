@@ -9,8 +9,8 @@ class HomeController < Rho::RhoController
   # GET /Account
   def index
     @timelines = Account.find_all.inject([]) {|acc, account|
-      client = Social::TwitterClient.new
-      acc << client.home_timelines(account, count: 1, exclude_replies: true, contributor_details: false, include_entities: false, trim_user: true)
+      client = account.client_klass.new
+      acc << client.home_timelines(account, count: 10, exclude_replies: true, contributor_details: false, include_entities: false)
     }.flatten.sort{|a,b| a.created_at <=> b.created_at}
   end
 end

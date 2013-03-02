@@ -1,5 +1,5 @@
-# The model has already been created by the framework, and extends Rhom::RhomObject
-# You can add more methods here
+require 'lib/social/twitter_client'
+
 class Account
   include Rhom::PropertyBag
 
@@ -7,4 +7,13 @@ class Account
   # enable :sync
 
   #add model specific code here
+  def client_klass
+    case self.provider
+    when :twitter
+      Social::TwitterClient
+    else
+      # TODO: other platform
+      Social::TwitterClient
+    end
+  end
 end

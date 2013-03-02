@@ -1,0 +1,19 @@
+.timeline .profile-image {
+    margin: 5px;
+    -webkit-border-radius: 10px;
+}
+
+.timeline .username {
+    font-size: 80%;
+}
+
+.timeline .account-name {
+    font-size: 90%;
+    font-weight: normal;
+    white-space:normal;
+}
+
+.timeline .date {
+    font-size: 60%;
+    margin: 0px;
+}
