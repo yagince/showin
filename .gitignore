@@ -19,3 +19,6 @@ bin/
 
 #for rhodes
 rhoconfig.txt
+
+#for node
+node_modules
