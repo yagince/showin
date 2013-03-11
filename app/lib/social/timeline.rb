@@ -1,8 +1,10 @@
+require 'lib/to_hash'
 require 'lib/social/user'
-require 'date'
+require 'time'
 
 module Social
   class Timeline
+    include ToHash
     attr_reader :id, :user, :body, :created_at
   end
 
@@ -11,7 +13,7 @@ module Social
       @id = json["id"]
       @user = Social::TwitterUser.new(json["user"])
       @body = json["text"]
-      @created_at = DateTime.parse(json["created_at"])
+      @created_at = Time.parse(json["created_at"])
     end
   end
 end

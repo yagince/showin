@@ -1,5 +1,7 @@
+require 'lib/to_hash'
 module Social
   class User
+    include ToHash
     attr_reader :id, :name, :profile_image_url, :profile_url, :account_name
   end
 

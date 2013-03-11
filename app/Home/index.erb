@@ -1,14 +1,20 @@
+<script type="text/javascript" charset="utf-8" src="/public/js/timeline.js"></script>
 <script>
-  $(document).delegate("div.timeline-page", "pageinit", function (event) {
-    $(".iscroll-wrapper", this).bind({
-      iscroll_onpulldown : function(event, data) {
-        setTimeout(function() {
-          $("div.timeline-page ul.ui-list-view").listview("refresh");
-          data.iscrollview.refresh();
-        }, 1500);
-      }
-    });
+var listSelector = "div.timeline-page #timeline-list";
+
+$(document).delegate("div.timeline-page", "pageinit", function (event) {
+  $(".iscroll-wrapper", this).bind({
+    iscroll_onpulldown : function(event, data) {
+      setTimeout(function() {
+        $.get('<%= url_for action: :index %>', { name: "hoge"}).success( 
+          function(timelines){
+            var json = $.parseJSON($(timelines).text());
+            onSuccess(json, listSelector);
+          });
+      }, 1500);
+    }
   });
+});
 </script>
 <div data-role="page" data-url="<%= Rho::RhoConfig.start_path %>/" class="timeline-page">
 
@@ -17,15 +23,15 @@
   </div>
 
   <div data-role="content" data-iscroll>
-    <div class="iscroll-pulldown">
+    <div class="iscroll-pulldown" style="text-align:center">
       <span class="iscroll-pull-icon"></span>
       <span class="iscroll-pull-label"></span>
     </div>
-    <ul data-role="listview">
+    <ul data-role="listview" id="timeline-list">
       <% @timelines.each{ |timeline| %>
         <li class="timeline">
           <img src="<%= timeline.user.profile_image_url %>" class="profile-image">
-          <h3 style="white-space:normal" class="username" style="float:left"><%= timeline.user.name %> <span class="account-name">@<%= timeline.user.account_name%></span></h3>
+          <h3 style="white-space:normal" class="username"><%= timeline.user.name %> <span class="account-name">@<%= timeline.user.account_name%></span></h3>
           <p style="white-space:normal"><%= timeline.body %></p>
           <p class="ui-li-aside date"><strong><%= timeline.created_at.strftime("%Y-%m-%d %H:%M") %></strong></p>
         </li>
