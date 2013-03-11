@@ -1,19 +1,26 @@
 <script type="text/javascript" charset="utf-8" src="/public/js/timeline.js"></script>
 <script>
 var listSelector = "div.timeline-page #timeline-list";
+var url = "<%= url_for action: :index %>";
+
+var showTimeline = function(url, listSelector) {
+  $.get('<%= url_for action: :index %>').success( 
+    function(timelines){
+    var json = $.parseJSON($(timelines).text());
+    onSuccess(json, listSelector);
+    data.iscrollview.refresh();
+  });
+}
 
 $(document).delegate("div.timeline-page", "pageinit", function (event) {
   $(".iscroll-wrapper", this).bind({
     iscroll_onpulldown : function(event, data) {
       setTimeout(function() {
-        $.get('<%= url_for action: :index %>', { name: "hoge"}).success( 
-          function(timelines){
-            var json = $.parseJSON($(timelines).text());
-            onSuccess(json, listSelector);
-          });
+        showTimeline(url,listSelector);
       }, 1500);
     }
   });
+  showTimeline(url, listSelector);
 });
 </script>
 <div data-role="page" data-url="<%= Rho::RhoConfig.start_path %>/" class="timeline-page">
@@ -28,14 +35,14 @@ $(document).delegate("div.timeline-page", "pageinit", function (event) {
       <span class="iscroll-pull-label"></span>
     </div>
     <ul data-role="listview" id="timeline-list">
-      <% @timelines.each{ |timeline| %>
-        <li class="timeline">
-          <img src="<%= timeline.user.profile_image_url %>" class="profile-image">
-          <h3 style="white-space:normal" class="username"><%= timeline.user.name %> <span class="account-name">@<%= timeline.user.account_name%></span></h3>
-          <p style="white-space:normal"><%= timeline.body %></p>
-          <p class="ui-li-aside date"><strong><%= timeline.created_at.strftime("%Y-%m-%d %H:%M") %></strong></p>
-        </li>
-      <% } %>
+      <!-- <% @timelines.each{ |timeline| %> -->
+      <!--   <li class="timeline"> -->
+      <!--     <img src="<%= timeline.user.profile_image_url %>" class="profile-image"> -->
+      <!--     <h3 style="white-space:normal" class="username"><%= timeline.user.name %> <span class="account-name">@<%= timeline.user.account_name%></span></h3> -->
+      <!--     <p style="white-space:normal"><%= timeline.body %></p> -->
+      <!--     <p class="ui-li-aside date"><strong><%= timeline.created_at.strftime("%Y-%m-%d %H:%M") %></strong></p> -->
+      <!--   </li> -->
+      <!-- <% } %> -->
     </ul>
   </div>
 
