@@ -1,4 +1,12 @@
 root = exports ? this
+root.showTimeline = (url, listSelector) ->
+  $.get(url).success( (timelines) ->
+    json = $.parseJSON($(timelines).text())
+    onSuccess(json, listSelector)
+    data.iscrollview.refresh()
+  )
+
+
 root.onSuccess = (timelines, listSelector) ->
   if (timelines.length != 0)
     $(listSelector).children().remove()
@@ -32,7 +40,7 @@ class Timeline
     """
     <li class="timeline">
       <img src="#{@timeline.user.profile_image_url}" class="profile-image">
-      <h3 style="white-space:normal" class="username">#{@timeline.user.name} <span class="account-name">#{@timeline.user.account_name}</span></h3>
+      <h3 style="white-space:normal" class="username">#{@timeline.user.name} <span class="account-name">@#{@timeline.user.account_name}</span></h3>
       <p style="white-space:normal">#{@timeline.body}</p>
       <p class="ui-li-aside date"><strong>#{@toRelativeTime(@toDate(@timeline.created_at))}</strong></p>
     </li>

@@ -5,6 +5,15 @@
 
   root = typeof exports !== "undefined" && exports !== null ? exports : this;
 
+  root.showTimeline = function(url, listSelector) {
+    return $.get(url).success(function(timelines) {
+      var json;
+      json = $.parseJSON($(timelines).text());
+      onSuccess(json, listSelector);
+      return data.iscrollview.refresh();
+    });
+  };
+
   root.onSuccess = function(timelines, listSelector) {
     var prependElement;
     if (timelines.length !== 0) {
@@ -49,7 +58,7 @@
     };
 
     Timeline.prototype.toElement = function() {
-      return "<li class=\"timeline\">\n  <img src=\"" + this.timeline.user.profile_image_url + "\" class=\"profile-image\">\n  <h3 style=\"white-space:normal\" class=\"username\">" + this.timeline.user.name + " <span class=\"account-name\">" + this.timeline.user.account_name + "</span></h3>\n  <p style=\"white-space:normal\">" + this.timeline.body + "</p>\n  <p class=\"ui-li-aside date\"><strong>" + (this.toRelativeTime(this.toDate(this.timeline.created_at))) + "</strong></p>\n</li>";
+      return "<li class=\"timeline\">\n  <img src=\"" + this.timeline.user.profile_image_url + "\" class=\"profile-image\">\n  <h3 style=\"white-space:normal\" class=\"username\">" + this.timeline.user.name + " <span class=\"account-name\">@" + this.timeline.user.account_name + "</span></h3>\n  <p style=\"white-space:normal\">" + this.timeline.body + "</p>\n  <p class=\"ui-li-aside date\"><strong>" + (this.toRelativeTime(this.toDate(this.timeline.created_at))) + "</strong></p>\n</li>";
     };
 
     return Timeline;
