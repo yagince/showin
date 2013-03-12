@@ -14,35 +14,42 @@ class Social::TwitterClient
   SCREEN_NAME_PREFIX="screen_name="
 
   def request_token(callback_url)
-    response = Rho::AsyncHttp.post(url: Rho::RhoConfig.twitter_request_token_url,
-                                   headers: header(:post, Rho::RhoConfig.twitter_request_token_url, callback: callback_url))
+    response = request(:post, Rho::RhoConfig.twitter_request_token_url, callback: callback_url)
     parse_request_token(response)
   end
 
   def access_token(oauth_verifier, request_token)
-    access_res = Rho::AsyncHttp.post(:url => Rho::RhoConfig.twitter_access_token_url,
-                                     headers: header(:post, Rho::RhoConfig.twitter_access_token_url, token: request_token.token))
+    access_res = request(:post, Rho::RhoConfig.twitter_access_token_url, token: request_token.token)
     parse_access_token(access_res)
   end
 
   DEFAULT_HOME_TIMELINE_OPTIONS = {count: 0, since: 0}
   def home_timelines(account, options={})
     url = to_url(Rho::RhoConfig.twitter_home_timeine_url, DEFAULT_HOME_TIMELINE_OPTIONS.merge(options))
-    response = Rho::AsyncHttp.get(url: url,
-                                  headers: header(:get, url, token: account.token, token_secret: account.secret))
-    RhoLog.info("TwitterClient#home_timelines", "response class is #{response["body"].class}")
+    response = request_with_account(:get, url, account)
     error?(response) ? [] : parse_timeline(response)
   end
 
   private
-
   def consumer_token
     { consumer_key: Rho::RhoConfig.twitter_consumer_key,
       consumer_secret: Rho::RhoConfig.twitter_consumer_secret }
   end
 
+  def request(method, url, options={})
+    Rho::AsyncHttp.send(method, url: url, headers: header(method, url, options))
+  end
+
+  def request_with_account(method, url, account)
+    Rho::AsyncHttp.send(method, url: url, headers: header_with_account(method, url, account))
+  end
+
   def header(method, url, header_options)
     { :Authorization => Social::OauthHeader.new(method, url, {}, consumer_token.merge(header_options)) }
+  end
+
+  def header_with_account(method, url, account)
+    header(method, url, token: account.token, token_secret: account.secret)
   end
 
   def parse_request_token(response)
