@@ -79,7 +79,7 @@ class Social::TwitterClient
   end
 
   def parse_timelines(response, account)
-    response["body"].map{|timeline| RhoLog.info("timeline", timeline);Social::Tweet.new(timeline, account)}
+    response["body"].map{|timeline| Social::Tweet.new(timeline, account)}
   end
 
   def parse_timeline(response, account)

@@ -13,7 +13,7 @@ class HomeController < Rho::RhoController
     if xhr?
       @timelines = Account.find_all.inject([]) {|acc, account|
         client = account.client_klass.new
-        acc << client.home_timelines(account, count: 1, exclude_replies: true, contributor_details: false)
+        acc << client.home_timelines(account, count: 50, exclude_replies: true, contributor_details: false)
       }.flatten.sort{|a,b| b.created_at <=> a.created_at}
       render string: ::JSON.generate(@timelines.inject([]){|acc, timeline| acc << timeline.to_hash})
     end
