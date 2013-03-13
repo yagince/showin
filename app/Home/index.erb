@@ -2,16 +2,17 @@
 <script>
 var listSelector = "div.timeline-page #timeline-list";
 var url = "<%= url_for action: :index %>";
+var option = {showUrl: "<%= url_for action: :show %>"};
 
 $(document).delegate("div.timeline-page", "pageinit", function (event) {
   $(".iscroll-wrapper", this).bind({
     iscroll_onpulldown : function(event, data) {
       setTimeout(function() {
-        showTimeline(url,listSelector);
+        showTimeline(url,listSelector, option);
       }, 1500);
     }
   });
-  showTimeline(url, listSelector);
+  showTimeline(url, listSelector, option);
 });
 </script>
 <div data-role="page" data-url="<%= Rho::RhoConfig.start_path %>/" class="timeline-page">

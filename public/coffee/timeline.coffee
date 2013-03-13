@@ -1,26 +1,27 @@
 root = exports ? this
-root.showTimeline = (url, listSelector) ->
+root.showTimeline = (url, listSelector, options={}) ->
   $.get(url).success( (timelines) ->
     json = $.parseJSON($(timelines).text())
-    onSuccess(json, listSelector)
+    onSuccess(json, listSelector, options)
     data.iscrollview.refresh()
   )
 
 
-root.onSuccess = (timelines, listSelector) ->
+root.onSuccess = (timelines, listSelector, options) ->
   if (timelines.length != 0)
     $(listSelector).children().remove()
 
   prependElement = ""
   $.each(timelines, (i, timeline) ->
-    prependElement += new Timeline(timeline).toElement()
+    prependElement += new Timeline(timeline, options).toElement()
   )
   $(listSelector).prepend(prependElement).listview("refresh")
   data.iscrollview.refresh()
 
 class Timeline
-  constructor: (timeline) ->
+  constructor: (timeline, options) ->
     @timeline = timeline
+    @showUrl = options.showUrl
 
   toRelativeTime: (time) ->
     diff = (new Date() - time)
@@ -39,9 +40,11 @@ class Timeline
   toElement: =>
     """
     <li class="timeline">
-      <img src="#{@timeline.user.profile_image_url}" class="profile-image">
-      <h3 style="white-space:normal" class="username">#{@timeline.user.name} <span class="account-name">@#{@timeline.user.account_name}</span></h3>
-      <p style="white-space:normal">#{@timeline.body}</p>
-      <p class="ui-li-aside date"><strong>#{@toRelativeTime(@toDate(@timeline.created_at))}</strong></p>
+      <a href="#{@showUrl}?id=#{@timeline.id}&account[name]=#{@timeline.account.name}&account[provider]=#{@timeline.account.provider}">
+        <img src="#{@timeline.user.profile_image_url}" class="profile-image">
+        <h3 style="white-space:normal" class="username">#{@timeline.user.name} <span class="account-name">@#{@timeline.user.account_name}</span></h3>
+        <p style="white-space:normal">#{@timeline.body}</p>
+        <p class="ui-li-aside date"><strong>#{@toRelativeTime(@toDate(@timeline.created_at))}</strong></p>
+      </a>
     </li>
     """

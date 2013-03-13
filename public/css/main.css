@@ -5,6 +5,7 @@
 
 .timeline .username {
     font-size: 80%;
+    white-space:normal;
 }
 
 .timeline .account-name {
@@ -15,5 +16,10 @@
 
 .timeline .date {
     font-size: 60%;
-    margin: 0px;
+    margin: 0.6em;
+    width: auto !important;
+}
+
+.timeline a.ui-link-inherit {
+    padding: 0em 15px;
 }

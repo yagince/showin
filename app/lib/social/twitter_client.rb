@@ -27,7 +27,15 @@ class Social::TwitterClient
   def home_timelines(account, options={})
     url = to_url(Rho::RhoConfig.twitter_home_timeine_url, DEFAULT_HOME_TIMELINE_OPTIONS.merge(options))
     response = request_with_account(:get, url, account)
-    error?(response) ? [] : parse_timeline(response)
+    error?(response) ? [] : parse_timelines(response, account)
+  end
+
+  def timeline(account, options={})
+    url = to_url(Rho::RhoConfig.twitter_statuses_show_url, options)
+    response = Rho::AsyncHttp.get(url: url,
+                                  headers: header_with_account(:get, url, account))
+    response = request_with_account(:get, url, account)
+    error?(response) ? nil : parse_timeline(response, account)
   end
 
   private
@@ -70,8 +78,12 @@ class Social::TwitterClient
     })
   end
 
-  def parse_timeline(response)
-    response["body"].map{|timeline| Social::Tweet.new(timeline)}
+  def parse_timelines(response, account)
+    response["body"].map{|timeline| RhoLog.info("timeline", timeline);Social::Tweet.new(timeline, account)}
+  end
+
+  def parse_timeline(response, account)
+    Social::Tweet.new(response["body"], account)
   end
 
   def error?(response)
