@@ -20,6 +20,6 @@
     width: auto !important;
 }
 
-.timeline a.ui-link-inherit {
-    padding: 0em 15px;
+.timeline .ui-li .ui-btn-inner a.ui-link-inherit, .timeline .ui-li-static.ui-li {
+    padding: 2px 15px 2px 10px !important;
 }
