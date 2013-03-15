@@ -64,7 +64,7 @@ class Timeline
   toElement: => """
     <li class="timeline">
       <a href="#{@showUrl}?id=#{@timeline.id}&account[name]=#{@timeline.account.name}&account[provider]=#{@timeline.account.provider}" data-transition="slide">
-        <img src="#{@timeline.user.profile_image_url}" class="profile-image">
+        <img src="#{@timeline.user.profile_image_url}" class="profile-image" width="48" height="48">
         <h3 class="username">#{@timeline.user.name} <span class="account-name">@#{@timeline.user.account_name}</span></h3>
         <p style="white-space:normal">#{@timeline.body}</p>
         <p class="ui-li-aside date"><strong>#{@toRelativeTime(@toDate(@timeline.created_at))}</strong></p>

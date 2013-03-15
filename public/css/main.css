@@ -20,8 +20,8 @@
     width: auto !important;
 }
 
-.timeline .ui-li .ui-btn-inner a.ui-link-inherit, .timeline .ui-li-static.ui-li {
-    padding: 2px 15px 2px 10px !important;
+.timeline a {
+    padding: 2px 25px 2px 60px !important;
 }
 
 .retweet {

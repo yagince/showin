@@ -98,7 +98,7 @@
     };
 
     Timeline.prototype.toElement = function() {
-      return "<li class=\"timeline\">\n  <a href=\"" + this.showUrl + "?id=" + this.timeline.id + "&account[name]=" + this.timeline.account.name + "&account[provider]=" + this.timeline.account.provider + "\" data-transition=\"slide\">\n    <img src=\"" + this.timeline.user.profile_image_url + "\" class=\"profile-image\">\n    <h3 class=\"username\">" + this.timeline.user.name + " <span class=\"account-name\">@" + this.timeline.user.account_name + "</span></h3>\n    <p style=\"white-space:normal\">" + this.timeline.body + "</p>\n    <p class=\"ui-li-aside date\"><strong>" + (this.toRelativeTime(this.toDate(this.timeline.created_at))) + "</strong></p>\n    " + (this.isRetweet() ? '<p class="retweet">' + this.retweetIcon() + this.timeline.original_data.user.name + 'さんがリツイート</p>' : '') + "\n  </a>\n</li>";
+      return "<li class=\"timeline\">\n  <a href=\"" + this.showUrl + "?id=" + this.timeline.id + "&account[name]=" + this.timeline.account.name + "&account[provider]=" + this.timeline.account.provider + "\" data-transition=\"slide\">\n    <img src=\"" + this.timeline.user.profile_image_url + "\" class=\"profile-image\" width=\"48\" height=\"48\">\n    <h3 class=\"username\">" + this.timeline.user.name + " <span class=\"account-name\">@" + this.timeline.user.account_name + "</span></h3>\n    <p style=\"white-space:normal\">" + this.timeline.body + "</p>\n    <p class=\"ui-li-aside date\"><strong>" + (this.toRelativeTime(this.toDate(this.timeline.created_at))) + "</strong></p>\n    " + (this.isRetweet() ? '<p class="retweet">' + this.retweetIcon() + this.timeline.original_data.user.name + 'さんがリツイート</p>' : '') + "\n  </a>\n</li>";
     };
 
     return Timeline;
