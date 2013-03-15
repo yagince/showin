@@ -33,8 +33,8 @@
                 //$.mobile.page.prototype.options.addBackBtn = true;
 
                 // You can disable (with false value) or change page loading message
-                $.mobile.loadingMessage = false;
-                //$.mobile.loadingMessage = "loading"; // it is default value
+                $.mobile.loader.prototype.options.text = "loading";
+                $.mobile.loader.prototype.options.theme = "a";
 
                 // For documented init options look here:
                 // http://jquerymobile.com/demos/1.0.1/docs/api/globalconfig.html
@@ -44,14 +44,13 @@
 
                 // Rhodes custom option!
                 // how long to wait transition end before "loading.." message will be shown
-                $.mobile.loadingMessageDelay = 300; // in ms
+                //$.mobile.loadingMessageDelay = 10; // in ms
 
                 // Uncomment these options in case of performance problem in pages transition
                 //$.mobile.defaultPageTransition = 'none';
                 //$.mobile.defaultDialogTransition = 'none';
                 //$.mobile.ajaxEnabled = false;
-                //$.mobile.pushStateEnabled = false;
-                //$.mobile.loadingMessageDelay = 50; // in ms
+                //$.mobile.pushStateEnabled = true;
             });
         </script>
         <% if System::get_property('platform') == 'WP7' %>
