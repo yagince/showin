@@ -1,18 +1,13 @@
-<script type="text/javascript" charset="utf-8" src="/public/js/timeline.js"></script>
 <div  id="timeline-detail" data-role="page" class="timeline-page" data-add-back-btn="true">
   <div data-role="header" data-position="fixed" data-tap-toggle="false">
     <h1><%= @timeline.user.name %></h1>
   </div>
 
-  <div data-role="content">
-    <div>
-      <div><img src=<%= @timeline.user.profile_image_url %>></div>
-      <div><%= @timeline.user.name %> <span>@<%= @timeline.user.account_name %></span></div>
-    </div>
-    <div>
-      <%= @timeline.body %>
-    </div>
+  <div id="tweet-detail" data-role="content">
   </div>
+  <script>
+    $("#tweet-detail").html(timelineDetailHtml(<%= @timeline_json %>));
+  </script>
 
   <%= render partial: "/footer" %>
 </div>

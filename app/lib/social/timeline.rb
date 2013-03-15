@@ -5,7 +5,7 @@ require 'time'
 module Social
   class Timeline
     include ToHash
-    attr_reader :id, :user, :body, :created_at, :account
+    attr_reader :id, :user, :body, :created_at, :account, :urls
   end
 
   class Tweet < Timeline
@@ -15,6 +15,7 @@ module Social
       @body = json["text"]
       @created_at = Time.parse(json["created_at"])
       @account = { name: account.name, provider: account.provider}
+      @urls = [json["entities"]["urls"]].flatten
     end
   end
 end

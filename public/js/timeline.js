@@ -5,7 +5,7 @@
 
   root = typeof exports !== "undefined" && exports !== null ? exports : this;
 
-  root.showTimeline = function(url, listSelector, options) {
+  root.renderTimelines = function(url, listSelector, options) {
     if (options == null) {
       options = {};
     }
@@ -15,6 +15,10 @@
       onSuccess(json, listSelector, options);
       return data.iscrollview.refresh();
     });
+  };
+
+  root.timelineDetailHtml = function(timeline) {
+    return new Timeline(timeline).toShowElement();
   };
 
   root.onSuccess = function(timelines, listSelector, options) {
@@ -34,8 +38,17 @@
 
     function Timeline(timeline, options) {
       var _this = this;
+      if (options == null) {
+        options = {};
+      }
       this.toElement = function() {
         return Timeline.prototype.toElement.apply(_this, arguments);
+      };
+      this.toShowElement = function() {
+        return Timeline.prototype.toShowElement.apply(_this, arguments);
+      };
+      this.bodyWithLinks = function(body) {
+        return Timeline.prototype.bodyWithLinks.apply(_this, arguments);
       };
       this.timeline = timeline;
       this.showUrl = options.showUrl;
@@ -59,6 +72,18 @@
       var datetimes;
       datetimes = timeStr.replace(" +0900", "").split(/[- :]/);
       return new Date(datetimes[0], datetimes[1] - 1, datetimes[2], datetimes[3], datetimes[4], datetimes[5]);
+    };
+
+    Timeline.prototype.bodyWithLinks = function(body) {
+      var _tmp;
+      _tmp = body;
+      return _tmp.replace(/[htps]+:\/\/[a-z0-9-_]+\.[a-z0-9-_:~%&\?\/.=]+[^:\.,\)\s*$]/ig, function(url) {
+        return '<a href="' + url + '?rho_open_target=_blank" target="_blank">' + url + '</a>';
+      });
+    };
+
+    Timeline.prototype.toShowElement = function() {
+      return "<div>\n  <div><img src=\"" + this.timeline.user.profile_image_url + "\"></div>\n  <div>" + this.timeline.user.name + " <span>@" + this.timeline.user.account_name + "</span></div>\n</div>\n<div>\n  " + (this.bodyWithLinks(this.timeline.body)) + "\n</div>";
     };
 
     Timeline.prototype.toElement = function() {

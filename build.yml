@@ -22,12 +22,14 @@ android:
   version: 2.3
   emulator: showin
 extensions:
-- json
-- another-extension
-- hmac
-- openssl.so
-- openssl
-- uri
-- digest
-- digest-sha1
+  - json
+  - another-extension
+  - hmac
+  - openssl.so
+  - openssl
+  - uri
+  - digest
+  - digest-sha1
 sdk: 
+capabilities:
+  - phone

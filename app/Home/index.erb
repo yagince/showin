@@ -21,11 +21,11 @@ $(document).delegate("div.timeline-page", "pageinit", function (event) {
   $(".iscroll-wrapper", this).bind({
     iscroll_onpulldown : function(event, data) {
       setTimeout(function() {
-        showTimeline(url,listSelector, option);
+        renderTimelines(url,listSelector, option);
       }, 1500);
     }
   });
-  showTimeline(url, listSelector, option);
+  renderTimelines(url, listSelector, option);
 });
 </script>
 <div data-role="page" data-url="<%= Rho::RhoConfig.start_path %>/" class="timeline-page">

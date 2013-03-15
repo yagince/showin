@@ -21,6 +21,7 @@ class HomeController < Rho::RhoController
   def show
     account = Account.find(conditions: @params["account"]).first
     @timeline = account.client_klass.new.timeline(account, {id: @params["id"]})
-    RhoLog.info "show", @timeline
+    @timeline_json = ::JSON.generate(@timeline.to_hash)
+    RhoLog.info "show", @timeline_json
   end
 end

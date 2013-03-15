@@ -35,6 +35,7 @@ class Social::TwitterClient
     response = Rho::AsyncHttp.get(url: url,
                                   headers: header_with_account(:get, url, account))
     response = request_with_account(:get, url, account)
+    RhoLog.info "Client#show", response["entities"]
     error?(response) ? nil : parse_timeline(response, account)
   end
 

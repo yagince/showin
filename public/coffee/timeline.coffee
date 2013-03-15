@@ -1,11 +1,13 @@
 root = exports ? this
-root.showTimeline = (url, listSelector, options={}) ->
+root.renderTimelines = (url, listSelector, options={}) ->
   $.get(url).success( (timelines) ->
     json = $.parseJSON($(timelines).text())
     onSuccess(json, listSelector, options)
     data.iscrollview.refresh()
   )
 
+root.timelineDetailHtml = (timeline) ->
+  new Timeline(timeline).toShowElement()
 
 root.onSuccess = (timelines, listSelector, options) ->
   if (timelines.length != 0)
@@ -19,7 +21,7 @@ root.onSuccess = (timelines, listSelector, options) ->
   data.iscrollview.refresh()
 
 class Timeline
-  constructor: (timeline, options) ->
+  constructor: (timeline, options={}) ->
     @timeline = timeline
     @showUrl = options.showUrl
 
@@ -37,8 +39,22 @@ class Timeline
     datetimes = timeStr.replace(" +0900", "").split(/[- :]/)
     new Date(datetimes[0], datetimes[1]-1, datetimes[2], datetimes[3], datetimes[4], datetimes[5])
 
-  toElement: =>
-    """
+  bodyWithLinks: (body) =>
+    _tmp = body
+    _tmp.replace(/[htps]+:\/\/[a-z0-9-_]+\.[a-z0-9-_:~%&\?\/.=]+[^:\.,\)\s*$]/ig, (url) ->
+      '<a href="' + url + '?rho_open_target=_blank" target="_blank">' + url + '</a>'
+    )
+
+  toShowElement: => """
+    <div>
+      <div><img src="#{@timeline.user.profile_image_url}"></div>
+      <div>#{@timeline.user.name} <span>@#{@timeline.user.account_name}</span></div>
+    </div>
+    <div>
+      #{@bodyWithLinks(@timeline.body)}
+    </div>
+  """
+  toElement: => """
     <li class="timeline">
       <a href="#{@showUrl}?id=#{@timeline.id}&account[name]=#{@timeline.account.name}&account[provider]=#{@timeline.account.provider}" data-transition="slide">
         <img src="#{@timeline.user.profile_image_url}" class="profile-image">
@@ -47,4 +63,4 @@ class Timeline
         <p class="ui-li-aside date"><strong>#{@toRelativeTime(@toDate(@timeline.created_at))}</strong></p>
       </a>
     </li>
-    """
+  """
