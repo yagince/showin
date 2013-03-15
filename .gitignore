@@ -22,3 +22,5 @@ rhoconfig.txt
 
 #for node
 node_modules
+
+scripts/*

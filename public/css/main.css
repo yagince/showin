@@ -23,3 +23,16 @@
 .timeline .ui-li .ui-btn-inner a.ui-link-inherit, .timeline .ui-li-static.ui-li {
     padding: 2px 15px 2px 10px !important;
 }
+
+.retweet {
+    vertical-align: middle;
+    color: #999999;
+}
+
+.retweet img {
+    width: 16px;
+    height: 16px;
+    //background: url(/public/images/icons/Black/icon-retweet.png) 0 0 no-repeat;
+    margin-right: 5px;
+    vertical-align: middle;
+}

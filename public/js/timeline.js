@@ -47,6 +47,9 @@
       this.toShowElement = function() {
         return Timeline.prototype.toShowElement.apply(_this, arguments);
       };
+      this.isRetweet = function() {
+        return Timeline.prototype.isRetweet.apply(_this, arguments);
+      };
       this.bodyWithLinks = function(body) {
         return Timeline.prototype.bodyWithLinks.apply(_this, arguments);
       };
@@ -82,12 +85,20 @@
       });
     };
 
+    Timeline.prototype.retweetIcon = function() {
+      return '<img src="/public/images/icons/Black/icon-retweet.png" width="16" height="16">';
+    };
+
+    Timeline.prototype.isRetweet = function() {
+      return !!this.timeline.original_data.retweeted_status;
+    };
+
     Timeline.prototype.toShowElement = function() {
-      return "<div>\n  <div><img src=\"" + this.timeline.user.profile_image_url + "\"></div>\n  <div>" + this.timeline.user.name + " <span>@" + this.timeline.user.account_name + "</span></div>\n</div>\n<div>\n  " + (this.bodyWithLinks(this.timeline.body)) + "\n</div>";
+      return "" + (this.isRetweet() ? '<div class="retweet">' + this.retweetIcon() + this.timeline.original_data.user.name + 'さんがリツイート</div>' : '') + "\n<div>\n  <div><img src=\"" + this.timeline.user.profile_image_url + "\"></div>\n  <div>" + this.timeline.user.name + " <span>@" + this.timeline.user.account_name + "</span></div>\n</div>\n<div>\n  " + (this.bodyWithLinks(this.timeline.body)) + "\n</div>";
     };
 
     Timeline.prototype.toElement = function() {
-      return "<li class=\"timeline\">\n  <a href=\"" + this.showUrl + "?id=" + this.timeline.id + "&account[name]=" + this.timeline.account.name + "&account[provider]=" + this.timeline.account.provider + "\" data-transition=\"slide\">\n    <img src=\"" + this.timeline.user.profile_image_url + "\" class=\"profile-image\">\n    <h3 class=\"username\">" + this.timeline.user.name + " <span class=\"account-name\">@" + this.timeline.user.account_name + "</span></h3>\n    <p style=\"white-space:normal\">" + this.timeline.body + "</p>\n    <p class=\"ui-li-aside date\"><strong>" + (this.toRelativeTime(this.toDate(this.timeline.created_at))) + "</strong></p>\n  </a>\n</li>";
+      return "<li class=\"timeline\">\n  <a href=\"" + this.showUrl + "?id=" + this.timeline.id + "&account[name]=" + this.timeline.account.name + "&account[provider]=" + this.timeline.account.provider + "\" data-transition=\"slide\">\n    <img src=\"" + this.timeline.user.profile_image_url + "\" class=\"profile-image\">\n    <h3 class=\"username\">" + this.timeline.user.name + " <span class=\"account-name\">@" + this.timeline.user.account_name + "</span></h3>\n    <p style=\"white-space:normal\">" + this.timeline.body + "</p>\n    <p class=\"ui-li-aside date\"><strong>" + (this.toRelativeTime(this.toDate(this.timeline.created_at))) + "</strong></p>\n    " + (this.isRetweet() ? '<p class="retweet">' + this.retweetIcon() + this.timeline.original_data.user.name + 'さんがリツイート</p>' : '') + "\n  </a>\n</li>";
     };
 
     return Timeline;

@@ -45,7 +45,14 @@ class Timeline
       '<a href="' + url + '?rho_open_target=_blank" target="_blank">' + url + '</a>'
     )
 
+  retweetIcon: ->
+    '<img src="/public/images/icons/Black/icon-retweet.png" width="16" height="16">'
+
+  isRetweet: =>
+    !!@timeline.original_data.retweeted_status
+
   toShowElement: => """
+    #{if @isRetweet() then '<div class="retweet">' + @retweetIcon() + @timeline.original_data.user.name + 'さんがリツイート</div>' else '' }
     <div>
       <div><img src="#{@timeline.user.profile_image_url}"></div>
       <div>#{@timeline.user.name} <span>@#{@timeline.user.account_name}</span></div>
@@ -61,6 +68,7 @@ class Timeline
         <h3 class="username">#{@timeline.user.name} <span class="account-name">@#{@timeline.user.account_name}</span></h3>
         <p style="white-space:normal">#{@timeline.body}</p>
         <p class="ui-li-aside date"><strong>#{@toRelativeTime(@toDate(@timeline.created_at))}</strong></p>
+        #{if @isRetweet() then '<p class="retweet">' + @retweetIcon() + @timeline.original_data.user.name + 'さんがリツイート</p>' else '' }
       </a>
     </li>
   """

@@ -5,17 +5,19 @@ require 'time'
 module Social
   class Timeline
     include ToHash
-    attr_reader :id, :user, :body, :created_at, :account, :urls
+    attr_reader :id, :user, :body, :created_at, :account, :urls, :original_data
   end
 
   class Tweet < Timeline
     def initialize(json, account)
+      tweet = json["retweeted_status"] || json
+      @original_data = json
       @id = json["id_str"]
-      @user = Social::TwitterUser.new(json["user"])
-      @body = json["text"]
-      @created_at = Time.parse(json["created_at"])
+      @user = Social::TwitterUser.new(tweet["user"])
+      @body = tweet["text"]
+      @created_at = Time.parse(tweet["created_at"])
       @account = { name: account.name, provider: account.provider}
-      @urls = [json["entities"]["urls"]].flatten
+      @urls = [tweet["entities"]["urls"]].flatten
     end
   end
 end
