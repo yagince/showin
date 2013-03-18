@@ -1,9 +1,10 @@
+<%= render partial: "/template/twitter_timeline" %>
 <script type="text/javascript" charset="utf-8" src="/public/js/timeline.js"></script>
 <script>
 var listSelector = "div.timeline-page #timeline-list";
 var url = "<%= url_for action: :index %>";
+var templateSelector = "#twitter-timeline-template";
 var option = {showUrl: "<%= url_for action: :show %>"};
-
 $(document).delegate("div.timeline-page", "pageinit", function (event) {
   $('div').on('pageshow', function(e,ui){
     if (ui.prevPage) {
@@ -21,11 +22,11 @@ $(document).delegate("div.timeline-page", "pageinit", function (event) {
   $(".iscroll-wrapper", this).bind({
     iscroll_onpulldown : function(event, data) {
       setTimeout(function() {
-        renderTimelines(url,listSelector, option);
+        renderTimelines(url,listSelector, templateSelector, option);
       }, 1500);
     }
   });
-  renderTimelines(url, listSelector, option);
+  renderTimelines(url, listSelector, templateSelector, option);
 });
 </script>
 <div data-role="page" data-url="<%= Rho::RhoConfig.start_path %>/" class="timeline-page">

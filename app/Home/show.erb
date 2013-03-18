@@ -6,7 +6,7 @@
   <div id="tweet-detail" data-role="content">
   </div>
   <script>
-    $("#tweet-detail").html(timelineDetailHtml(<%= @timeline_json %>));
+    $("#tweet-detail").html(timelineDetailHtml(<%= @timeline_json %>, "#twitter-timeline-detail-template"));
   </script>
 
   <%= render partial: "/footer" %>

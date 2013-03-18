@@ -1,24 +1,23 @@
 root = exports ? this
-root.renderTimelines = (url, listSelector, options={}) ->
+root.renderTimelines = (url, listSelector, templateSelector, options={}) ->
   $.get(url).success( (timelines) ->
     json = $.parseJSON($(timelines).text())
-    onSuccess(json, listSelector, options)
+    onSuccess(json, listSelector, templateSelector, options)
     data.iscrollview.refresh()
   )
 
-root.timelineDetailHtml = (timeline) ->
-  new Timeline(timeline).toShowElement()
+root.timelineDetailHtml = (timeline, templateSelector) ->
+  new Timeline(timeline).toShowElement(templateSelector)
 
-root.onSuccess = (timelines, listSelector, options) ->
+root.onSuccess = (timelines, listSelector, templateSelector, options) ->
   if (timelines.length != 0)
     $(listSelector).children().remove()
 
   prependElement = ""
   $.each(timelines, (i, timeline) ->
-    prependElement += new Timeline(timeline, options).toElement()
+    prependElement += new Timeline(timeline, options).toElement(templateSelector)
   )
   $(listSelector).prepend(prependElement).listview("refresh")
-  data.iscrollview.refresh()
 
 class Timeline
   constructor: (timeline, options={}) ->
@@ -45,30 +44,16 @@ class Timeline
       '<a href="' + url + '?rho_open_target=_blank" target="_blank">' + url + '</a>'
     )
 
-  retweetIcon: ->
-    '<img src="/public/images/icons/Black/icon-retweet.png" width="16" height="16">'
-
   isRetweet: =>
     !!@timeline.original_data.retweeted_status
 
-  toShowElement: => """
-    #{if @isRetweet() then '<div class="retweet">' + @retweetIcon() + @timeline.original_data.user.name + 'さんがリツイート</div>' else '' }
-    <div>
-      <div><img src="#{@timeline.user.profile_image_url}"></div>
-      <div>#{@timeline.user.name} <span>@#{@timeline.user.account_name}</span></div>
-    </div>
-    <div>
-      #{@bodyWithLinks(@timeline.body)}
-    </div>
-  """
-  toElement: => """
-    <li class="timeline">
-      <a href="#{@showUrl}?id=#{@timeline.id}&account[name]=#{@timeline.account.name}&account[provider]=#{@timeline.account.provider}" data-transition="slide">
-        <img src="#{@timeline.user.profile_image_url}" class="profile-image" width="48" height="48">
-        <h3 class="username">#{@timeline.user.name} <span class="account-name">@#{@timeline.user.account_name}</span></h3>
-        <p style="white-space:normal">#{@timeline.body}</p>
-        <p class="ui-li-aside date"><strong>#{@toRelativeTime(@toDate(@timeline.created_at))}</strong></p>
-        #{if @isRetweet() then '<p class="retweet">' + @retweetIcon() + @timeline.original_data.user.name + 'さんがリツイート</p>' else '' }
-      </a>
-    </li>
-  """
+  toElement: (templateSelector) =>
+    @timeline.relativeTime = @toRelativeTime(@toDate(@timeline.created_at))
+    @timeline.isRetweet = @isRetweet()
+    _.template($(templateSelector).text(), {timeline: @timeline, showUrl: @showUrl})
+
+  toShowElement: (templateSelector) =>
+    @timeline.relativeTime = @toRelativeTime(@toDate(@timeline.created_at))
+    @timeline.isRetweet = @isRetweet()
+    @timeline.bodyWithLinks = @bodyWithLinks(@timeline.body)
+    _.template($(templateSelector).text(), {timeline: @timeline})

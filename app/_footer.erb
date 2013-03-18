@@ -3,7 +3,18 @@
     <ul>
       <li><a href="<%= Rho::RhoConfig.start_path %>/" data-transition="pop">Home</a></li>
     	<li><a href="<%= url_for :controller => :Settings, :action => :index %>" data-transition="pop">Settings</a></li>
+    	<li><a href="#throw" data-rel="popup" data-position-to="window" data-transition="pop" data-inline="true">Throw</a></li>
     </ul>
+  </div>
+  <div data-role="popup" id="throw" data-theme="a">
+    <a href="#" data-rel="back" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a> 
+    <form>
+      <div>
+        <h3>Throw new YourPost!!</h3>
+        <textarea name="body" id="post" value="" placeholder="enter your new post..." data-theme="a"></textarea>
+        <button type="submit" data-theme="b" data-icon="check" onclick="return false;">Throw!!</button>
+      </div>
+    </form>
   </div>
 </div>    
 

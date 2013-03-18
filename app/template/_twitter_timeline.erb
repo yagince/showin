@@ -1,0 +1,28 @@
+<script type="text/template" id="retweet-icon">
+  <img src="/public/images/icons/{%= color %}/icon-retweet.png" width="16" height="16">
+</script>
+<script type="text/template" id="twitter-timeline-template">
+  <li class="timeline">
+    <a href="{%= showUrl %}?id={%- timeline.id %}&account[name]={%- timeline.account.name %}&account[provider]={%- timeline.account.provider %}" data-transition="slide">
+      <img src="{%= timeline.user.profile_image_url %}" class="profile-image" width="48" height="48">
+      <h3 class="username">{%= timeline.user.name %} <span class="account-name">@{%= timeline.user.account_name %}</span></h3>
+      <p style="white-space:normal">{%= timeline.body %}</p>
+      <p class="ui-li-aside date"><strong>{%= timeline.relativeTime %}</strong></p>
+      {% if(timeline.isRetweet) { %}
+        <p class="retweet">{%= _.template($('#retweet-icon').text(), {color:'Black'}) %} {%= timeline.original_data.user.name %}さんがリツイート</p>
+      {% } %}
+    </a>
+  </li>
+</script>
+<script type="text/template" id="twitter-timeline-detail-template">
+    {% if(timeline.isRetweet) { %}
+      <div class="retweet">{%= _.template($('#retweet-icon').text(), {color:'Black'}) %} {%= timeline.original_data.user.name %}さんがリツイート</div>
+    {% } %}
+    <div>
+      <div><img src="{%= timeline.user.profile_image_url %}"></div>
+      <div>{%= timeline.user.name %} <span>@{%= timeline.user.account_name %}</span></div>
+    </div>
+    <div>
+      {%= timeline.bodyWithLinks %}
+    </div>
+</script>
